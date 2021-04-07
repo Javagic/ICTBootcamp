@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'  //Подключаем плагин для использования Kotlin Annotation Processor
     id 'kotlin-android-extensions'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -44,6 +45,13 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    // Room components
+    implementation "androidx.room:room-runtime:2.2.6"             // библиотека рантайма
+    kapt "androidx.room:room-compiler:2.2.6"                      // библиотека билдтайма Kotlin Annotation Processor
+    implementation "androidx.room:room-ktx:2.2.6"                 // подключаем если хотим использовать адаптеры coroutines
+    androidTestImplementation "androidx.room:room-testing:2.2.6"  // подключаем если хотим убедиться в надежности нашего кода через тесты
+    implementation 'androidx.room:room-rxjava2:2.2.1'             // подключаем если хотим использовать адаптеры rxjava
 
     // RxJava2 components
     implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
