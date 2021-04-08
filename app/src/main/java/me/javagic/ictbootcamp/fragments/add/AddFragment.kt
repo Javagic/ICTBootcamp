@@ -48,6 +48,7 @@ class AddFragment : Fragment() {
             val user = User(
                 0,
                 firstName,
+                lastName,
                 Integer.parseInt(number.toString())
             )
             // Add Data to Database

@@ -5,16 +5,17 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.android.synthetic.main.custom_row.view.*
+import kotlinx.android.synthetic.main.fragment_update.*
+import kotlinx.android.synthetic.main.fragment_update.view.*
 import me.javagic.ictbootcamp.R
 import me.javagic.ictbootcamp.model.User
 import me.javagic.ictbootcamp.viewmodel.UserViewModel
-import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class UpdateFragment : Fragment() {
 
@@ -33,6 +34,7 @@ class UpdateFragment : Fragment() {
 
         view.updateFirstName_et.setText(args.currentUser.firstName)
         view.updateNumber_et.setText(args.currentUser.number.toString())
+        view.lastName_txt.setText(args.currentUser.lastName)
 
         view.update_btn.setOnClickListener {
             updateItem()
@@ -51,7 +53,7 @@ class UpdateFragment : Fragment() {
 
         if (inputCheck(firstName, lastName, updateNumber_et.text)) {
             // Create User Object
-            val updatedUser = User(args.currentUser.id, firstName,  age)
+            val updatedUser = User(args.currentUser.id, firstName, lastName, age)
             // Update Current User
             mUserViewModel.updateUser(updatedUser)
             Toast.makeText(requireContext(), "Updated Successfully!", Toast.LENGTH_SHORT).show()
@@ -85,7 +87,8 @@ class UpdateFragment : Fragment() {
             Toast.makeText(
                 requireContext(),
                 "Successfully removed: ${args.currentUser.firstName}",
-                Toast.LENGTH_SHORT).show()
+                Toast.LENGTH_SHORT
+            ).show()
             findNavController().navigate(R.id.action_updateFragment_to_listFragment)
         }
         builder.setNegativeButton("No") { _, _ -> }
