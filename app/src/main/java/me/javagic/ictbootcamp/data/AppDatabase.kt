@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import me.javagic.ictbootcamp.model.User
 
-const val DATABASE_VERSION = 1
+const val DATABASE_VERSION = 2
 const val DATABASE_NAME = "app_database"
 
 /**
@@ -35,9 +37,19 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     DATABASE_NAME
-                ).build()
+                ).addMigrations(MIGRATION_1_2).build()
                 INSTANCE = instance
                 return instance
+            }
+        }
+
+        /**
+         * Применяем любой набор миграций при создании нашей базы данных
+         * Таким образом мы уверены что схема будет обновлена без потери данных пользователя
+         */
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("""ALTER TABLE 'user_table' ADD COLUMN 'lastName' TEXT NOT NULL DEFAULT "LastName" """)
             }
         }
     }
